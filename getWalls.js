@@ -1,27 +1,29 @@
 'use strict';
+// -------------------------- imports ----------------------
 const fetch = require('node-fetch');
 const snoowrap = require('snoowrap');
 const r = require('./config.js');
-const http = require('http');
-const https = require('https');
 const fs = require('fs');
 const FileReader = require('filereader')
+const S = require('string');
 
+// ------------------------- code that needs work ----------
 const posts = r.getSubreddit('wallpapers').getHot({limit: 900})
 
 const dir = '/home/richard.thomas/Pictures/';
 
-// const testDest = (dir) => {
-//   if (!fs.existsSync(dir)){
-//     fs.mkdirSync(dir);
-//   }
-// }
+const extValid = (file) => {
+  if (S(file).endsWith(".jpg") || S(file).endsWith(".png")) {
+    return true
+  }
+  else {
+    return false
+  }
+}
 
-// const getDestStatus = (dir) => {
-
-// }
-
-// console.log(testDest(dir))
+const mkDest = (dirs) => {
+  return dir + dirs
+}
 
 const makeFinal = (temp) => {
   let name = getBaseName(temp)
@@ -41,10 +43,10 @@ const getBaseName  = (link) => {
 
 const valid = posts.filter(getHd)
   .map(post => post.url)
+  .filter(extValid)
   .map(post => { 
     let name = getBaseName(post)
-    let file = makeFile(String(name))
-    request(String(post),name)
+    request(String(post), mkDest(name))
   })
 
 const request = (url,filename) => fetch(url).then(image => image.body
