@@ -50,7 +50,7 @@ const valid = posts.filter(getHd)
   })
 
 const request = (url,filename) => fetch(url).then(image => image.body
-  .pipe(fs.createWriteStream(filename))
+  .pipe(makeFile(filename))
   .on('close', () => console.log('image downloaded'))
 );
 
