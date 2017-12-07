@@ -2,7 +2,9 @@
 const snoowrap = require('snoowrap');
 const r = require('./config.js');
 
-r.getSubreddit('wallpapers')
-  .getHot({limit: 900}).map(post => post.title).then(console.log)
+const posts = r.getSubreddit('wallpapers').getHot({limit: 900})
+  
+const getHd = (post) => (post.title).includes("1920x1080")
 
-// r.getHot().map(post => post.title).then(console.log);
+const valid = posts.filter(getHd)
+  .map(post => post.title).then(console.log)
