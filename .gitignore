@@ -5,6 +5,8 @@
 *.log
 *.log.*
 *.sig
+*.jpg
+*.png
 
 config.js
 
